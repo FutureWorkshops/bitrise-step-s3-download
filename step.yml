@@ -1,0 +1,71 @@
+title: "S3 Download"
+summary: This step allows to download a file from an S3 bucket.
+description: |-
+   This step allows to download a file from an S3 bucket using an Access/secret keypair for authentication.
+website: https://github.com/FutureWorkshops/bitrise-step-s3-download
+source_code_url: https://github.com/FutureWorkshops/bitrise-step-s3-download
+host_os_tags:
+  - osx-10.10
+project_type_tags:
+  - ios
+  - android
+  - xamarin
+type_tags:
+  - script
+is_requires_admin_user: true
+is_always_run: false
+is_skippable: true
+deps:
+  brew:
+  - name: git
+  - name: wget
+  - name: awscli
+  apt_get:
+  - name: git
+  - name: wget
+  - name: awscli
+run_if: ""
+inputs:
+  - aws_access_key: ''
+    opts:
+      title: "AWS Access Key"
+      summary: The Access Key for the S3 user
+      description: This is the AWS Access key of an user with read permission to the S3 bucket/file.
+        is_expand: true
+      is_required: true
+      value_options: []
+  - aws_secret_access_key: ''
+    opts:
+      title: "AWS Secret Access Key"
+      summary: The Secret Access Key for the S3 user
+      description: This is the AWS Secret Access key of an user with read permission to the S3 bucket/file.
+        is_expand: true
+      is_required: true
+      value_options: []
+  - s3_bucket: ''
+    opts:
+      title: "S3 Bucket"
+      summary: The S3 bucket containing the file to download
+      description: This is the S3 bucket containing the file to download
+        is_expand: true
+      is_required: true
+      value_options: []
+  - file_path: ''
+    opts:
+      title: "File path"
+      summary: The file path of the file to download 
+      description: This is the file path of the file to download from the bucket.
+      is_expand: true
+      is_required: true
+      value_options: []
+  - output_location: ''
+    opts:
+      title: "Output file"
+      summary: Where to save the file locally.
+      description: This is the local file path of the downloaded file.
+        is_expand: true
+      is_required: true
+      value_options: []
+
+outputs:
+ 
