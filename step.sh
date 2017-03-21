@@ -2,7 +2,11 @@
 
 AWS_ACCESS_KEY_ID=$aws_access_key
 AWS_SECRET_ACCESS_KEY="$aws_secret_access_key"
-aws s3 cp s3://$S3_BUCKET/$S3_PATH $output_location 
+
+S3_PATH="s3://$s3_bucket/$s3_filepath"
+echo "*** Downloading file from path: $S3_PATH to $output_location"
+
+aws s3 cp $S3_PATH $output_location
 
 # --- Export Environment Variables for other Steps:
 # You can export Environment Variables for other Steps with

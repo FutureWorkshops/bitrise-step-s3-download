@@ -1,11 +1,6 @@
 format_version: 1.1.0
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 
-app:
-  envs:
-  # define these in your .bitrise.secrets.yml
-  - A_SECRET_PARAM: $A_SECRET_PARAM
-
 workflows:
   test:
     steps:
@@ -22,15 +17,13 @@ workflows:
         - is_create_path: true
     - path::./:
         title: Step Test
-        description: |-
-          The example input has a default value,
-          you can overwrite it if you want to, just like we did below,
-          but the step would use the default value specified in the `step.yml`
-          file if you would not specify another value.
+        description: ''
         run_if: true
         inputs:
-        - example_step_input: Example Step Input's value
-
+        - aws_access_key: AWS_ACCESS_KEY_ID
+        - aws_secret_access_key: AWS_SECRET_ACCESS_KEY
+        - s3_bucket: fw.ci.keychain
+        - s3_filepath: harmony.p12
 
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
