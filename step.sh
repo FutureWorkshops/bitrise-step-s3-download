@@ -102,11 +102,11 @@ validate_required_input "access_key_id" $aws_access_key
 validate_required_input "secret_access_key" $aws_secret_access_key
 validate_required_input "upload_bucket" $s3_bucket
 validate_required_input "remote_path" $s3_filepath
-validate_required_input "local_path" $output_location
+validate_required_input "output_location" $output_location
 
 # this expansion is required for paths with ~
 #  more information: http://stackoverflow.com/questions/3963716/how-to-manually-expand-a-special-variable-ex-tilde-in-bash
-eval expanded_local_path="${local_path}"
+eval expanded_local_path="${output_location}"
 
 if [ ! -e "${expanded_local_path}" ]; then
   echo_fail "The specified local path doesn't exist at: ${expanded_local_path}"
