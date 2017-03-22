@@ -128,6 +128,8 @@ AWS_SECRET_ACCESS_KEY="$aws_secret_access_key"
 
 echo_info "Downloading file from path: $S3_PATH to $output_location"
 
+brew install awscli
+
 aws s3 cp $S3_PATH $output_location
 
 # --- Export Environment Variables for other Steps:

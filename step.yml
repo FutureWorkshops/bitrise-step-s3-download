@@ -19,9 +19,9 @@ is_always_run: false
 is_skippable: false
 deps:
   brew:
-  - name: awscli
+    #- name: awscli
   apt_get:
-  - name: awscli
+    #- name: awscli
 run_if: ""
 inputs:
   - aws_access_key: ''
