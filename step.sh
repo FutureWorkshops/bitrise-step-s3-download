@@ -128,7 +128,11 @@ AWS_SECRET_ACCESS_KEY="$aws_secret_access_key"
 
 echo_info "Downloading file from path: $S3_PATH to $output_location"
 
-brew install awscli
+if command -v brew >/dev/null 2>&1; then
+  brew install awscli
+else 
+  apt-get -y install awscli
+fi
 
 aws s3 cp $S3_PATH $output_location
 
