@@ -134,7 +134,9 @@ else
   apt-get -y install awscli
 fi
 
-aws s3 cp $S3_PATH $output_location
+aws s3 cp --only-show-errors $S3_PATH $output_location
+
+echo_info "File downloaded."
 
 # --- Export Environment Variables for other Steps:
 # You can export Environment Variables for other Steps with
