@@ -131,6 +131,7 @@ echo_info "Downloading file from path: $S3_PATH to $output_location"
 if command -v brew >/dev/null 2>&1; then
   brew install awscli
 else 
+  apt-get update
   apt-get -y install awscli
 fi
 
