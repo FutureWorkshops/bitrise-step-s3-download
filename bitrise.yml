@@ -24,6 +24,18 @@ workflows:
         - aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
         - s3_bucket: $AWS_BUCKET
         - s3_filepath: $AWS_FILE_PATH
+    - change-workdir:
+        title: Switch back to root dir
+        description: ''
+        inputs:
+        - path: ./..
+        - is_create_path: true
+    - script:
+        title: Remove temp folder
+        inputs:
+        - content: |-
+            #!/bin/bash
+            rm -rf ./_tmp
 
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
