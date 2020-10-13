@@ -7,13 +7,8 @@ source_code_url: https://github.com/FutureWorkshops/bitrise-step-s3-download
 host_os_tags:
   - osx-10.10
   - osx-10.9
-project_type_tags:
-  - ios
-  - android
-  - xamarin
 type_tags:
-  - amazon
-  - s3
+  - utility
 is_requires_admin_user: true
 is_always_run: false
 is_skippable: false
