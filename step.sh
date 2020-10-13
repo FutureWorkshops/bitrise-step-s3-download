@@ -133,4 +133,6 @@ fi
 
 aws s3 cp --only-show-errors $S3_PATH $output_location
 
+envman add --key S3_DOWNLOAD_OUTPUT_PATH --value "$output_location/$s3_filepath"
+
 echo_info "File downloaded."

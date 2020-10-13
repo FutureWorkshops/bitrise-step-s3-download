@@ -17,11 +17,6 @@ type_tags:
 is_requires_admin_user: true
 is_always_run: false
 is_skippable: false
-deps:
-  brew:
-    #- name: awscli
-  apt_get:
-    #- name: awscli
 run_if: ""
 inputs:
   - aws_access_key: ''
@@ -31,7 +26,7 @@ inputs:
       description: This is the AWS Access key of an user with read permission to the S3 bucket/file.
       is_expand: true
       is_required: true
-      value_options: []
+      is_sensitive: true
   - aws_secret_access_key: ''
     opts:
       title: "AWS Secret Access Key"
@@ -39,7 +34,7 @@ inputs:
       description: This is the AWS Secret Access key of an user with read permission to the S3 bucket/file.
       is_expand: true
       is_required: true
-      value_options: []
+      is_sensitive: true
   - s3_bucket: ''
     opts:
       title: "S3 Bucket"
@@ -47,7 +42,6 @@ inputs:
       description: This is the S3 bucket containing the file to download
       is_expand: true
       is_required: true
-      value_options: []
   - s3_filepath: ''
     opts:
       title: "File path"
@@ -55,7 +49,6 @@ inputs:
       description: This is the file path of the file to download from the bucket.
       is_expand: true
       is_required: true
-      value_options: []
   - output_location: '.'
     opts:
       title: "File path"
@@ -63,7 +56,11 @@ inputs:
       description: The folder where to store the downloaded file (must exist).
       is_expand: true
       is_required: true
-      value_options: []
 
 outputs:
+  - S3_DOWNLOAD_OUTPUT_PATH: 'Path were the file was saved'
+    opts:
+      title: S3 Download output
+      is_dont_change_value: false
+      category: aws 
  
