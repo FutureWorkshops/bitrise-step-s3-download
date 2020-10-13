@@ -26,6 +26,7 @@ inputs:
       description: This is the AWS Access key of an user with read permission to the S3 bucket/file.
       is_expand: true
       is_required: true
+      is_sensitive: true
   - aws_secret_access_key: ''
     opts:
       title: "AWS Secret Access Key"
@@ -33,6 +34,7 @@ inputs:
       description: This is the AWS Secret Access key of an user with read permission to the S3 bucket/file.
       is_expand: true
       is_required: true
+      is_sensitive: true
   - s3_bucket: ''
     opts:
       title: "S3 Bucket"
