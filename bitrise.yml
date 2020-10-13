@@ -40,8 +40,11 @@ workflows:
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
   audit-this-step:
+    before_run:
+    - test
     steps:
     - script:
+        title: Audit current step
         inputs:
         - content: |-
             #!/bin/bash
