@@ -113,12 +113,6 @@ if [ ! -e "${expanded_local_path}" ]; then
   exit 1
 fi
 
-
-# if [[ "$aws_region" != "" ]] ; then
-# 	echo_details "AWS region (${aws_region}) specified!"
-# 	export AWS_DEFAULT_REGION="${aws_region}"
-# fi
-
 S3_PATH="s3://$s3_bucket/$s3_filepath"
 export AWS_ACCESS_KEY_ID="${access_key_id}"
 export AWS_SECRET_ACCESS_KEY="${secret_access_key}"
@@ -128,30 +122,15 @@ AWS_SECRET_ACCESS_KEY="$aws_secret_access_key"
 
 echo_info "Downloading file from path: $S3_PATH to $output_location"
 
-if command -v brew >/dev/null 2>&1; then
-  brew install awscli
-else 
-  apt-get update
-  apt-get -y install awscli
+if command -v aws >/dev/null 2>&1; then
+  echo_info "AWS CLI already installed"
+else
+  echo_info "Installing AWS CLI"
+  curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+  unzip awscli-bundle.zip
+  sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 fi
 
 aws s3 cp --only-show-errors $S3_PATH $output_location
 
 echo_info "File downloaded."
-
-# --- Export Environment Variables for other Steps:
-# You can export Environment Variables for other Steps with
-#  envman, which is automatically installed by `bitrise setup`.
-# A very simple example:
-#  envman add --key EXAMPLE_STEP_OUTPUT --value 'the value you want to share'
-# Envman can handle piped inputs, which is useful if the text you want to
-# share is complex and you don't want to deal with proper bash escaping:
-#  cat file_with_complex_input | envman add --KEY EXAMPLE_STEP_OUTPUT
-# You can find more usage examples on envman's GitHub page
-#  at: https://github.com/bitrise-io/envman
-
-#
-# --- Exit codes:
-# The exit code of your Step is very important. If you return
-#  with a 0 exit code `bitrise` will register your Step as "successful".
-# Any non zero exit code will be registered as "failed" by `bitrise`.
