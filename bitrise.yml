@@ -22,8 +22,8 @@ workflows:
         inputs:
         - aws_access_key: $AWS_ACCESS_KEY_ID
         - aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
-        - s3_bucket: fw.ci.keychain
-        - s3_filepath: harmony.p12
+        - s3_bucket: $AWS_BUCKET
+        - s3_filepath: $AWS_FILE_PATH
 
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
