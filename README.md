@@ -1,47 +1,44 @@
 # Download file form S3
 This step allows to download a file from an S3 bucket using an Access/secret keypair for authentication.
 
-
 ## How to use this Step
 
-Can be run directly with the [bitrise CLI](https://github.com/bitrise-io/bitrise),
-just `git clone` this repository, `cd` into it's folder in your Terminal/Command Line
-and call `bitrise run test`.
+This step can be configured using:
 
-*Check the `bitrise.yml` file for required inputs which have to be
-added to your `.bitrise.secrets.yml` file!*
+- aws_access_key: This is the access key of an IAM user with access to the s3_bucket
+- aws_secret_access_key: This is the secret access key associated to the access_key above
+- s3_bucket: This is the name of the bucket where the file can be found
+- s3_filepath: Name of the file that will be downloaded (relative to the bucket)
+- output_location: This is the local output path where the file will be stored. By default, this value is `.`
 
-Step by step:
+Output:
 
-1. Open up your Terminal / Command Line
-2. `git clone` the repository
-3. `cd` into the directory of the step (the one you just `git clone`d)
-5. Create a `.bitrise.secrets.yml` file in the same directory of `bitrise.yml` - the `.bitrise.secrets.yml` is a git ignored file, you can store your secrets in
-6. Check the `bitrise.yml` file for any secret you should set in `.bitrise.secrets.yml`
-  * Best practice is to mark these options with something like `# define these in your .bitrise.secrets.yml`, in the `app:envs` section.
-7. Once you have all the required secret parameters in your `.bitrise.secrets.yml` you can just run this step with the [bitrise CLI](https://github.com/bitrise-io/bitrise): `bitrise run test`
-
-An example `.bitrise.secrets.yml` file:
+- S3_DOWNLOAD_OUTPUT_PATH: This is the full path of the downloaded file
 
 ```
-envs:
-- A_SECRET_PARAM_ONE: the value for secret one
-- A_SECRET_PARAM_TWO: the value for secret two
+- git::https://github.com/FutureWorkshops/bitrise-step-s3-download.git@master:
+    title: Download keystore
+    inputs:
+    - aws_access_key: "$AWS_ACCESS_KEY_ID"
+    - aws_secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+    - s3_bucket: "$CERTIFICATE_BUCKET"
+    - s3_filepath: "$KEYSTORE_NAME"
+    - output_location: "$BITRISE_SOURCE_DIR"
+- script@1:
+    title: Echo path
+    inputs:
+    - content: |-
+        #!/usr/bin/env bash
+        # fail if any commands fails
+        set -e
+        # debug log
+        set -x
+​
+        # write your script here
+        echo "Path: $S3_DOWNLOAD_OUTPUT_PATH"
+        echo "Computed path: $BITRISE_SOURCE_DIR/$KEYSTORE_NAME"
+​
+        ls "$BITRISE_SOURCE_DIR"
 ```
-
-## How to contribute to this Step
-
-1. Fork this repository
-2. `git clone` it
-3. Create a branch you'll work on
-4. To use/test the step just follow the **How to use this Step** section
-5. Do the changes you want to
-6. Run/test the step before sending your contribution
-  * You can also test the step in your `bitrise` project, either on your Mac or on [bitrise.io](https://www.bitrise.io)
-  * You just have to replace the step ID in your project's `bitrise.yml` with either a relative path, or with a git URL format
-  * (relative) path format: instead of `- original-step-id:` use `- path::./relative/path/of/script/on/your/Mac:`
-  * direct git URL format: instead of `- original-step-id:` use `- git::https://github.com/user/step.git@branch:`
-  * You can find more example of alternative step referencing at: https://github.com/bitrise-io/bitrise/blob/master/_examples/tutorials/steps-and-workflows/bitrise.yml
-7. Once you're done just commit your changes & create a Pull Request
 
 
