@@ -136,6 +136,6 @@ echo_info "File downloaded."
 
 eval RESULT="${output_location}/${s3_filepath}"
 
-envman add --key S3_DOWNLOAD_OUTPUT_PATH --value "${RESULT}"
+envman add --key AWS_DOWNLOAD_OUTPUT_PATH --value "${RESULT}"
 
-echo_info "S3_DOWNLOAD_OUTPUT_PATH set to ${RESULT}"
+echo_info "AWS_DOWNLOAD_OUTPUT_PATH set to ${RESULT}"
