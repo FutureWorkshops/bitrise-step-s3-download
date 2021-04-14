@@ -25,7 +25,7 @@ workflows:
         - s3_bucket: $AWS_BUCKET
         - s3_filepath: $AWS_FILE_PATH
     - script:
-        title: Remove temp folder
+        title: Check if file exists
         inputs:
         - content: |-
             #!/bin/bash
@@ -33,7 +33,19 @@ workflows:
             if [[ -f "${CURRENT_PATH}/${AWS_FILE_PATH}" ]]; then
               echo "Output is correctly set"
             else
-              echo "Bad output ${AWS_DOWNLOAD_OUTPUT_PATH}"
+              echo "File not downloaded"
+              exit 1
+            fi
+    - script:
+        title: Check environment variable
+        inputs:
+        - content: |-
+            #!/bin/bash
+            eval CURRENT_PATH="."
+            if [ "${CURRENT_PATH}/${AWS_FILE_PATH}" = "${S3_DOWNLOAD_OUTPUT_PATH}" ]; then
+              echo "Output is correctly set"
+            else
+              echo "Bad output ${S3_DOWNLOAD_OUTPUT_PATH}"
               exit 1
             fi
     - change-workdir:
