@@ -53,6 +53,9 @@ inputs:
       is_required: true
 
 outputs:
-  - AWS_DOWNLOAD_OUTPUT_PATH: 'Path were the file was saved'
+  - S3_DOWNLOAD_OUTPUT_PATH:
     opts:
-      title: S3 Download output
+      title: 'S3 Download output'
+      summary: 'Path were the file was saved'
+      description: |-
+        This is the full path to the downloaded file. It will be composed by resolved output_location and s3_filepath
