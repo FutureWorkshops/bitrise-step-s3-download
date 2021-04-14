@@ -94,7 +94,6 @@ else
 fi
 echo_details "* s3_bucket: $s3_bucket"
 echo_details "* s3_filepath: $s3_filepath"
-echo_details "* s3_filepath: $s3_filepath"
 echo_details "* output_location: $output_location"
 echo
 
@@ -133,6 +132,10 @@ fi
 
 aws s3 cp --only-show-errors $S3_PATH $output_location
 
-envman add --key S3_DOWNLOAD_OUTPUT_PATH --value "$output_location/$s3_filepath"
-
 echo_info "File downloaded."
+
+eval RESULT="${output_location}/${s3_filepath}"
+
+envman add --key S3_DOWNLOAD_OUTPUT_PATH --value "$RESULT"
+
+echo_info "S3_DOWNLOAD_OUTPUT_PATH set to ${RESULT}"
