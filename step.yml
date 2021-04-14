@@ -53,9 +53,6 @@ inputs:
       is_required: true
 
 outputs:
-  - S3_DOWNLOAD_OUTPUT_PATH: 'Path were the file was saved'
+  - AWS_DOWNLOAD_OUTPUT_PATH: 'Path were the file was saved'
     opts:
       title: S3 Download output
-      is_dont_change_value: false
-      category: aws 
- 

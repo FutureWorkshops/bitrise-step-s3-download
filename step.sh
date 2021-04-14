@@ -92,17 +92,16 @@ if [[ -n "$aws_secret_access_key" ]] ; then
 else
 	echo_details "* aws_secret_access_key: [EMPTY]"
 fi
-echo_details "* s3_bucket: $s3_bucket"
-echo_details "* s3_filepath: $s3_filepath"
-echo_details "* s3_filepath: $s3_filepath"
-echo_details "* output_location: $output_location"
+echo_details "* s3_bucket: ${s3_bucket}"
+echo_details "* s3_filepath: ${s3_filepath}"
+echo_details "* output_location: ${output_location}"
 echo
 
-validate_required_input "access_key_id" $aws_access_key
-validate_required_input "secret_access_key" $aws_secret_access_key
-validate_required_input "upload_bucket" $s3_bucket
-validate_required_input "remote_path" $s3_filepath
-validate_required_input "output_location" $output_location
+validate_required_input "access_key_id" "${aws_access_key}"
+validate_required_input "secret_access_key" "${aws_secret_access_key}"
+validate_required_input "upload_bucket" "${s3_bucket}"
+validate_required_input "remote_path" "${s3_filepath}"
+validate_required_input "output_location" "${output_location}"
 
 # this expansion is required for paths with ~
 #  more information: http://stackoverflow.com/questions/3963716/how-to-manually-expand-a-special-variable-ex-tilde-in-bash
@@ -113,14 +112,14 @@ if [ ! -e "${expanded_local_path}" ]; then
   exit 1
 fi
 
-S3_PATH="s3://$s3_bucket/$s3_filepath"
+S3_PATH="s3://${s3_bucket}/${s3_filepath}"
 export AWS_ACCESS_KEY_ID="${access_key_id}"
 export AWS_SECRET_ACCESS_KEY="${secret_access_key}"
 
-AWS_ACCESS_KEY_ID=$aws_access_key
-AWS_SECRET_ACCESS_KEY="$aws_secret_access_key"
+AWS_ACCESS_KEY_ID="${aws_access_key}"
+AWS_SECRET_ACCESS_KEY="${aws_secret_access_key}"
 
-echo_info "Downloading file from path: $S3_PATH to $output_location"
+echo_info "Downloading file from path: ${S3_PATH} to ${output_location}"
 
 if command -v aws >/dev/null 2>&1; then
   echo_info "AWS CLI already installed"
@@ -131,8 +130,12 @@ else
   sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 fi
 
-aws s3 cp --only-show-errors $S3_PATH $output_location
-
-envman add --key S3_DOWNLOAD_OUTPUT_PATH --value "$output_location/$s3_filepath"
+aws s3 cp --only-show-errors "${S3_PATH}" "${output_location}"
 
 echo_info "File downloaded."
+
+eval RESULT="${output_location}/${s3_filepath}"
+
+envman add --key AWS_DOWNLOAD_OUTPUT_PATH --value "${RESULT}"
+
+echo_info "AWS_DOWNLOAD_OUTPUT_PATH set to ${RESULT}"
