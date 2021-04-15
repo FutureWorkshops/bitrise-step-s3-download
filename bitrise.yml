@@ -25,27 +25,26 @@ workflows:
         - s3_bucket: $AWS_BUCKET
         - s3_filepath: $AWS_FILE_PATH
     - script:
-        title: Check if file exists
-        inputs:
-        - content: |-
-            #!/bin/bash
-            eval CURRENT_PATH="."
-            if [[ -f "${CURRENT_PATH}/${AWS_FILE_PATH}" ]]; then
-              echo "Output is correctly set"
-            else
-              echo "File not downloaded"
-              exit 1
-            fi
-    - script:
         title: Check environment variable
         inputs:
         - content: |-
             #!/bin/bash
             eval CURRENT_PATH="."
-            if [ "${CURRENT_PATH}/${AWS_FILE_PATH}" = "${S3_DOWNLOAD_OUTPUT_PATH}" ]; then
-              echo "Output is correctly set"
+            if [ "${CURRENT_PATH}/${FILE_NAME}" = "${S3_DOWNLOAD_OUTPUT_PATH}" ]; then
+              echo "Output is correctly set to ${S3_DOWNLOAD_OUTPUT_PATH}"
             else
               echo "Bad output ${S3_DOWNLOAD_OUTPUT_PATH}"
+              exit 1
+            fi
+    - script:
+        title: Check if file exists
+        inputs:
+        - content: |-
+            #!/bin/bash
+            if [[ -f "${S3_DOWNLOAD_OUTPUT_PATH}" ]]; then
+              echo "File exists in the output path"
+            else
+              echo "File not downloaded"
               exit 1
             fi
     - change-workdir:
