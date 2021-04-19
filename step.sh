@@ -134,8 +134,9 @@ aws s3 cp --only-show-errors "${S3_PATH}" "${output_location}"
 
 echo_info "File downloaded."
 
+eval RESOLVED_PATH="$( realpath "${output_location}" )"
 eval FILENAME="$( basename "${s3_filepath}" )"
-eval RESULT="${output_location}/${FILENAME}"
+eval RESULT="${RESOLVED_PATH}/${FILENAME}"
 
 envman add --key S3_DOWNLOAD_OUTPUT_PATH --value "${RESULT}"
 
