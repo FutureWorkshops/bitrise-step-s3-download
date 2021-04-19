@@ -5,17 +5,17 @@ This step allows to download a file from an S3 bucket using an Access/secret key
 
 This step can be configured using:
 
-- aws_access_key: This is the access key of an IAM user with access to the s3_bucket
-- aws_secret_access_key: This is the secret access key associated to the access_key above
-- s3_bucket: This is the name of the bucket where the file can be found
-- s3_filepath: Name of the file that will be downloaded (relative to the bucket)
-- output_location: This is the local output path where the file will be stored. By default, this value is `.`
+- **aws_access_key:** This is the access key of an IAM user with access to the s3_bucket
+- **aws_secret_access_key:** This is the secret access key associated to the access_key above
+- **s3_bucket:** This is the name of the bucket where the file can be found
+- **s3_filepath:** Name of the file that will be downloaded (relative to the bucket)
+- **output_location:** This is the local output path where the file will be stored. By default, this value is `.`
 
 Output:
 
-- S3_DOWNLOAD_OUTPUT_PATH: This is the full path of the downloaded file
+- **S3_DOWNLOAD_OUTPUT_PATH:** This is the full path of the downloaded file
 
-```
+```yaml
 - git::https://github.com/FutureWorkshops/bitrise-step-s3-download.git@master:
     title: Download keystore
     inputs:
