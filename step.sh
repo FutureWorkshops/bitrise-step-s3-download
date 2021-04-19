@@ -119,7 +119,7 @@ export AWS_SECRET_ACCESS_KEY="${secret_access_key}"
 AWS_ACCESS_KEY_ID="${aws_access_key}"
 AWS_SECRET_ACCESS_KEY="${aws_secret_access_key}"
 
-echo_info "Downloading file from path: ${S3_PATH} to ${output_location}"
+echo_info "Downloading file from path: ${S3_PATH} to ${expanded_local_path}"
 
 if command -v aws >/dev/null 2>&1; then
   echo_info "AWS CLI already installed"
@@ -130,11 +130,11 @@ else
   sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 fi
 
-aws s3 cp --only-show-errors "${S3_PATH}" "${output_location}"
+aws s3 cp --only-show-errors "${S3_PATH}" "${expanded_local_path}"
 
 echo_info "File downloaded."
 
-eval RESOLVED_PATH="$( realpath "${output_location}" )"
+eval RESOLVED_PATH="$( realpath "${expanded_local_path}" )"
 eval FILENAME="$( basename "${s3_filepath}" )"
 eval RESULT="${RESOLVED_PATH}/${FILENAME}"
 

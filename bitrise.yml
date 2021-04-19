@@ -56,7 +56,8 @@ workflows:
         inputs:
         - content: |-
             #!/bin/bash
-            rm -rf ./_tmp
+            eval TEMP_FOLDER="$(pwd)/_tmp"
+            rm -rf "${TEMP_FOLDER}"
 
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
