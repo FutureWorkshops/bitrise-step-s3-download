@@ -4,17 +4,19 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 workflows:
   test:
     steps:
-    - change-workdir:
-        title: Switch working dir to test / _tmp dir
-        description: |-
-          To prevent step testing issues, like referencing relative
-          files with just './some-file' in the step's code, which would
-          work for testing the step from this directory directly
-          but would break if the step is included in another `bitrise.yml`.
-        run_if: true
+    - script:
+        title: Create temp folder
         inputs:
-        - path: ./_tmp
-        - is_create_path: true
+        - content: |-
+            #!/bin/bash
+
+            eval TEMP_FOLDER="$(pwd)/_tmp"
+
+            if [[ -d "${TEMP_FOLDER}" ]]; then
+              rm -r "${TEMP_FOLDER}"
+            fi
+
+            mkdir "${TEMP_FOLDER}"
     - path::./:
         title: Step Test
         description: ''
@@ -24,17 +26,18 @@ workflows:
         - aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
         - s3_bucket: $AWS_BUCKET
         - s3_filepath: $AWS_FILE_PATH
-        - output_location: .
+        - output_location: ./_tmp
     - script:
         title: Check environment variable
         inputs:
         - content: |-
             #!/bin/bash
-            eval CURRENT_PATH="."
-            if [ "${CURRENT_PATH}/${FILE_NAME}" = "${S3_DOWNLOAD_OUTPUT_PATH}" ]; then
+            eval TEMP_FOLDER="$(pwd)/_tmp"
+            if [ "${TEMP_FOLDER}/${FILE_NAME}" = "${S3_DOWNLOAD_OUTPUT_PATH}" ]; then
               echo "Output is correctly set to ${S3_DOWNLOAD_OUTPUT_PATH}"
             else
               echo "Bad output ${S3_DOWNLOAD_OUTPUT_PATH}"
+              echo "Expected ${TEMP_FOLDER}"
               exit 1
             fi
     - script:
@@ -48,12 +51,6 @@ workflows:
               echo "File not downloaded"
               exit 1
             fi
-    - change-workdir:
-        title: Switch back to root dir
-        description: ''
-        inputs:
-        - path: ./..
-        - is_create_path: true
     - script:
         title: Remove temp folder
         inputs:
